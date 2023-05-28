@@ -1,0 +1,39 @@
+---
+- name: Configuration et activation des interfaces du routeur
+  hosts: csr1000
+  gather_facts: false
+
+  tasks:
+    - name: Configuration de l'interface Gigabit 2
+      ios_config:
+        lines:
+          - interface Gigabit2
+          - ip address 192.168.2.1 255.255.255.0
+          - no shutdown
+        parents: interface Gigabit2
+      register: gigabit2_config
+
+    - name: Configuration de l'interface Gigabit 3
+      ios_config:
+        lines:
+          - interface Gigabit3
+          - ip address 192.168.3.1 255.255.255.0
+          - no shutdown
+        parents: interface Gigabit3
+      register: gigabit3_config
+
+    - name: Configuration de l'interface Gigabit 4
+      ios_config:
+        lines:
+          - interface Gigabit4
+          - ip address 192.168.4.1 255.255.255.0
+          - no shutdown
+        parents: interface Gigabit4
+      register: gigabit4_config
+
+    - name: Vérification de la configuration
+      debug:
+        var:
+          gigabit2_config
+          gigabit3_config
+          gigabit4_config
