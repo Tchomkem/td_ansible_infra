@@ -1,3 +1,3 @@
  
 [routeurs]
-csr1000 ansible_host=192.168.103.205
+csr1000 ansible_host=192.168.103.201

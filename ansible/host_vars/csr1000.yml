@@ -2,7 +2,7 @@
 # Routeur CSR1000
 
 # Indique comment contacter la cible
-# ansible_host : 192.168.0.24 <- commenté car déjà dans hosts
+ansible_host : 192.168.103.201 
 # Comptes par défaut
 ansible_user : cisco
 ansible_password : cisco123!
