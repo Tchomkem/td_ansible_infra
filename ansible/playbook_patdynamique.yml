@@ -1,0 +1,42 @@
+---
+- name: PAT et NAT 
+  hosts: csr1000
+  gather_facts: false
+
+  tasks:
+    - name: Interface out 
+      cisco.ios.ios_config:
+        lines:
+          - ip nat outside
+          parents: interface Gigabit1
+      
+    - name: Interface in 
+      cisco.ios.ios_config:
+        lines:
+          - ip nat inside
+          parents: interface Gigabit{{item}}
+        loop:
+          - 2
+          - 3 
+          - 4
+    - name: Mise en place des ACLs 
+      cisco.ios.ios_config:
+        lines:
+          - access-list 5 permit 192.168.{{item}}.0 0.0.0.255
+        loop:
+          - 2
+          - 3 
+          - 4
+    - name: config nat 
+      cisco.ios.ios_config:
+        lines:
+        - ip nat inside source list 5 interface Gigabit1 overload
+    - name: changement de port 
+      cisco.ios.ios_config:
+        lines:
+        - ip nat inside source static tcp 192.168.3.2 80 interface Gigabit1 80
+        - ip nat inside source static tcp 192.168.4.2 22 interface Gigabit1 2222
+    - name: config nat 
+      cisco.ios.ios_command:
+        commands: show ip nat translate
+      register: nat 
