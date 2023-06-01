@@ -36,10 +36,10 @@
         - ip nat inside source static tcp 192.168.3.2 80 interface Gigabit1 80
         - ip nat inside source static tcp 192.168.4.2 22 interface Gigabit1 2222
 
-    #- name: récupère le nat  
-     # cisco.ios.ios_command:
-      #  commands: show ip nat translations
-      #register: nat_config
+    - name: récupère le nat  
+      cisco.ios.ios_command:
+        commands: "show ip nat translations"
+      register: nat_config
  
     #- name: Enregistre le nat
       #copy:
